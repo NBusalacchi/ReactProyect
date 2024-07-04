@@ -1,30 +1,38 @@
 import React from "react";
 import CartWidget from "../CartWidget/CartWidget";
-import {Flex, Menu, MenuButton, MenuList, MenuItem, Heading, Button, Image, Box} from "@chakra-ui/react";
-import {FaArrowDown} from "react-icons/fa";
+import {Link} from "react-router-dom";
+import {Menu, MenuButton, MenuList, MenuItem, Heading, Button, Flex, Image} from "@chakra-ui/react";
+import {FaAngleDown} from "react-icons/fa";
+import Logo from "../../assets/farmacia.png";
 
 const NavBar = () => {
-    const ImageProp = {
-        imageUrl:
-            "https://play-lh.googleusercontent.com/rfWOJQVBHoAZ_B43v0ySFlLmJBLtksVGAxGaFRh2ex4nOmNQ86qzG4sYWV63IKrXlvI",
-    };
     return (
-        <Flex justify={"space-around"} align={"center"} backgroundColor={"blue"}>
-            <Heading>
-                <Box width="64px" height="64px">
-                    <Image src={ImageProp.imageUrl} boxSize="64px" />
-                </Box>
+        <Flex className="navBar" justify={"space-between"} align={"center"} height={"10vh"} w={"100%"} bg={"#23872B"}>
+            <Heading ml={4}>
+                <Link to="/">
+                    <Image className="logo" w={"128px"} h={"64px"} src={Logo} alt="Logo" />
+                </Link>
             </Heading>
             <Menu>
-                <MenuButton as={Button} rightIcon={<FaArrowDown />}>
-                    Market
+                <MenuButton as={Button} rightIcon={<FaAngleDown />}>
+                    Products
                 </MenuButton>
                 <MenuList>
-                    <MenuItem>New</MenuItem>
-                    <MenuItem>Body</MenuItem>
-                    <MenuItem>Shoes</MenuItem>
-                    <MenuItem>Accesories</MenuItem>
-                    <MenuItem>Premium</MenuItem>
+                    <MenuItem>
+                        <Link to="categoria/Cardiometabolic">Cardiometabolic</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="categoria/Antibiotics">Antibiotics</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="categoria/Gastroenterology">Gastroenterology</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="categoria/Psychotropic">Psychotropic</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="categoria/Respiratory&Anti-staminic">Respiratory&Anti-staminic</Link>
+                    </MenuItem>
                 </MenuList>
             </Menu>
             <CartWidget />
