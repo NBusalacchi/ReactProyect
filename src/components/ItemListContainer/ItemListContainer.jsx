@@ -1,9 +1,10 @@
 import {Box, Flex, Heading} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
-import {getProducts, getProductsByCategory} from "../../data/asynMock.jsx";
 import ItemList from "../ItemList/ItemList";
 import {useParams} from "react-router-dom";
 import {MoonLoader} from "react-spinners";
+import {db} from "../../config/firebase";
+import {collection, getDocs, query, where} from "firebase/firestore";
 
 const ItemListContainer = ({title}) => {
     const [productos, setProductos] = useState([]);
@@ -11,12 +12,24 @@ const ItemListContainer = ({title}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const dataCategory = category ? getProductsByCategory(category) : getProducts();
         setLoading(true);
-        dataCategory
-        .then((prod) => setProductos(prod))
-        .catch((error) => console.log(error))
-        .finally(() => setLoading(false));
+        const getData = async () => {
+            const coleccion = collection(db, "productos");
+
+            const queryRef = !category ? coleccion : query(coleccion, where("categoria", "==", category));
+
+            const response = await getDocs(queryRef);
+            const products = response.docs.map((doc) => {
+                const newItem = {
+                    ...doc.data(),
+                    id: doc.id,
+                };
+                return newItem;
+            });
+            setProductos(products);
+            setLoading(false);
+        };
+        getData();
     }, [category]);
 
     return (
