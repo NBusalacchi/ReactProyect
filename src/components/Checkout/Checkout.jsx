@@ -1,8 +1,9 @@
 import React, {useContext, useState} from "react";
-import {FormControl, FormErrorMessage, Flex, Input, Heading, Button, Box} from "@chakra-ui/react";
+import {FormControl, FormErrorMessage, Flex, Input, Heading, Button, Box, useToast} from "@chakra-ui/react";
 import {addDoc, collection, Timestamp} from "firebase/firestore";
 import {db} from "../../config/firebase";
 import Context from "../../context/CartContext";
+import {useNavigate} from "react-router-dom";
 
 const Checkout = () => {
     const [user, setUser] = useState({
@@ -13,7 +14,9 @@ const Checkout = () => {
     });
     const [error, setError] = useState({});
 
-    const {cart, getTotalPrice} = useContext(Context);
+    const {cart, getTotalPrice, clearCart} = useContext(Context);
+    const navigate = useNavigate();
+    const toast = useToast();
 
     const updateUser = (event) => {
         setUser((user) => ({
@@ -69,6 +72,21 @@ const Checkout = () => {
             const orderRef = await addDoc(ordersCollection, order);
             console.log(orderRef);
             console.log(`El número de orden es: ${orderRef.id}`);
+
+            // Mostrar mensaje de éxito
+            toast({
+                title: "Compra realizada con éxito.",
+                description: "Gracias por tu compra. Serás redirigido al menú principal.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+
+            // Vaciar el carrito y redirigir después de 3 segundos
+            setTimeout(() => {
+                clearCart();
+                navigate("/");
+            }, 3000);
         } catch (error) {
             console.log(error);
         }
@@ -77,7 +95,7 @@ const Checkout = () => {
     return (
         <Flex direction={"column"} justify={"center"} align={"center"} w={"100%"}>
             <Box w={"50%"} textAlign={"center"}>
-                <Heading my={5} color={"#3F747D"}>
+                <Heading my={5} color={"#23872B"}>
                     Datos de facturación
                 </Heading>
                 <FormControl isInvalid={Object.keys(error).length > 0}>
@@ -131,12 +149,11 @@ const Checkout = () => {
                     <FormErrorMessage mb={2}>{error.phone}</FormErrorMessage>
                     <Flex justify={"center"} align={"center"}>
                         <Button
-                            bg={"#3F747D"}
+                            bg={"#23872B"}
                             onClick={getOrder}
                             mt={2}
                             _hover={{
-                                backgroundColor: "#608e8e",
-                                color: "#fff",
+                                color: "white",
                             }}
                         >
                             Finalizar compra

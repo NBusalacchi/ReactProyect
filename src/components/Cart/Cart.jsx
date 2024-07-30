@@ -56,9 +56,9 @@ const Cart = () => {
                     <Tbody>
                         {cart.map((prod, index) => (
                             <Tr
-                                key={prod.id}
-                                bg={index % 2 === 0 ? "#3F747D" : "#c5d0d3"}
-                                color={index % 2 === 0 ? "#c5d0d3" : "#3F747D"}
+                                key={prod.id || index}
+                                bg={index % 2 === 0 ? "#23872B" : "#fc9c3c"}
+                                color={index % 2 === 0 ? "#fc9c3c" : "#23872B"}
                             >
                                 <Td border={"none"}>{prod.nombre}</Td>
                                 <Td border={"none"}>{prod.quantity}</Td>
@@ -68,10 +68,10 @@ const Cart = () => {
                                     <Button
                                         bg={"transparent"}
                                         fontSize={"1.5rem"}
-                                        color={index % 2 === 0 ? "#c5d0d3" : "#3F747D"}
+                                        color={index % 2 === 0 ? "#fc9c3c" : "#23872B"}
                                         _hover={{
                                             backgroundColor: "transparent",
-                                            color: index % 2 === 0 ? "#c5d0d3" : "#416d6d",
+                                            color: index % 2 === 0 ? "#fc9c3c" : "#23872B",
                                         }}
                                         onClick={() => removeItem(prod.id)}
                                     >
@@ -83,20 +83,19 @@ const Cart = () => {
                     </Tbody>
                 </Table>
                 <Center mt={10}>
-                    <Flex bg={"#3F747D"} w={"90%"} h={"5vh"} justify={"space-around"} align={"center"}>
-                        <Text fontSize={"3xl"} color={"#c5d0d3"} w={"15rem"} height={"3rem"} textAlign={"center"}>
+                    <Flex bg={"#8cd444"} w={"90%"} h={"5vh"} justify={"space-around"} align={"center"}>
+                        <Text fontSize={"3xl"} w={"15rem"} height={"2.5rem"} textAlign={"center"}>
                             Total: ${getTotalPrice()}
                         </Text>
                         <Button
                             onClick={() => clearCart()}
                             w={"15rem"}
-                            height={"3rem"}
+                            height={"2.5rem"}
                             backgroundColor={"transparent"}
-                            color={"#c5d0d3"}
                             fontSize={"xl"}
                             _hover={{
-                                backgroundColor: "#608e8e",
-                                color: "#c5d0d3",
+                                backgroundColor: "#fc9c3c",
+                                color: "white",
                             }}
                         >
                             <span className="iconClearCart">
@@ -108,16 +107,15 @@ const Cart = () => {
                             <ChakraLink
                                 as={Link}
                                 width={"15rem"}
-                                height={"3rem"}
+                                height={"2.5rem"}
                                 to="/checkout"
                                 display={"flex"}
                                 justifyContent={"center"}
                                 alignItems={"center"}
                                 textAlign={"center"}
-                                backgroundColor={"#3F747D"}
-                                color={"#fff"}
+                                backgroundColor={"#8cd444"}
                                 _hover={{
-                                    backgroundColor: "#608e8e",
+                                    backgroundColor: "#fc9c3c",
                                     color: "#fff",
                                     borderRadius: "10px",
                                 }}
